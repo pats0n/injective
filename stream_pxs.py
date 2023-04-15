@@ -11,26 +11,28 @@ import markets
 
 async def main() -> None:
     # select network: local, testnet, mainnet
-    network = Network.mainnet()
+    network = Network.testnet()
     client = AsyncClient(network, insecure=False)
 
     m = markets.Map()
 
     await m.main()
 
-    eth_id = m.markets["ETH/USDT PERP"]
+    # eth_id = m.markets["ETH/USDT PERP"]
     btc_id = m.markets["BTC/USDT PERP"]
 
-    market_ids = [eth_id]
-    orderbooks = await client.stream_derivative_orderbook_snapshot(
-        market_ids=[eth_id,btc_id]
-    )
+    l = []
+
+    # l.append(eth_id)
+    l.append(btc_id)
+
+    market_ids = l
+    orderbooks = await client.stream_derivative_orderbook_snapshot(l)
     async for orderbook in orderbooks:
         # print(orderbook)
         print(orderbook.operation_type)
         print(orderbook.timestamp)
         print(orderbook.market_id)
-
 
 
 if __name__ == "__main__":

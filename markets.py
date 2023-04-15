@@ -22,8 +22,8 @@ class Map:
 
     async def main(self) -> None:
         # select network: local, testnet, mainnet
-        # network = Network.testnet()
-        network = Network.mainnet()
+        network = Network.testnet()
+        # network = Network.mainnet()
         client = AsyncClient(network, insecure=False)
         markets = await client.get_derivative_markets()
         self.build(markets)

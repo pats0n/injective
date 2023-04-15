@@ -8,7 +8,7 @@ from pyinjective.constant import Network  # type: ignore
 
 
 async def main() -> None:
-    network = Network.mainnet()
+    network = Network.testnet()
     client = AsyncClient(network, insecure=False)
     address = "inj1f54qtx4g0w0juzmuas7ldtj7r0u2c0w5zpp2hp"
     all_bank_balances = await client.get_bank_balances(address=address)

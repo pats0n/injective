@@ -1,29 +1,28 @@
 #!/usr/bin/env python3
 
-
+import os
 import asyncio
 import logging
 
-from pyinjective.composer import Composer as ProtoMsgComposer
-from pyinjective.async_client import AsyncClient
-from pyinjective.transaction import Transaction
-from pyinjective.constant import Network
-from pyinjective.wallet import PrivateKey
+from pyinjective.composer import Composer as ProtoMsgComposer  # type: ignore
+from pyinjective.async_client import AsyncClient  # type: ignore
+from pyinjective.transaction import Transaction  # type: ignore
+from pyinjective.constant import Network  # type: ignore
+from pyinjective.wallet import PrivateKey  # type: ignore
 
 
 async def main() -> None:
-    # select network: local, testnet, mainnet
     network = Network.testnet()
     composer = ProtoMsgComposer(network=network.string())
 
-    # initialize grpc client
     client = AsyncClient(network, insecure=False)
     await client.sync_timeout_height()
 
     # load account
-    priv_key = PrivateKey.from_hex(
-        "f9db9bf330e23cb7839039e944adef6e9df447b90b503d5b4464c90bea9022f3"
-    )
+
+    pk = open(os.path.expanduser("~/.pk")).readline()
+
+    priv_key = PrivateKey.from_hex(pk)
     pub_key = priv_key.to_public_key()
     address = pub_key.to_address()
     account = await client.get_account(address.to_acc_bech32())
@@ -39,7 +38,7 @@ async def main() -> None:
         market_id=market_id,
         subaccount_id=subaccount_id,
         fee_recipient=fee_recipient,
-        price=50000,
+        price=15747,
         quantity=0.01,
         leverage=3,
         is_buy=True,
