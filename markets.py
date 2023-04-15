@@ -18,8 +18,6 @@ class Map:
 
         for i in range(0, len(markets.markets)):
 
-            # print(markets.markets[i].ticker, markets.markets[i].market_id)
-
             self.markets[markets.markets[i].ticker] = markets.markets[i].market_id
 
     async def main(self) -> None:
@@ -28,7 +26,6 @@ class Map:
         network = Network.mainnet()
         client = AsyncClient(network, insecure=False)
         markets = await client.get_derivative_markets()
-
         self.build(markets)
 
 
@@ -39,3 +36,7 @@ if __name__ == "__main__":
     asyncio.run(m.main())
 
     print(m.markets)
+
+    eth_id = m.markets['ETH/USDT PERP']
+
+    print(eth_id)
