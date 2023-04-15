@@ -3,6 +3,7 @@
 import os
 import asyncio
 import logging
+import markets
 
 from pyinjective.composer import Composer as ProtoMsgComposer  # type: ignore
 from pyinjective.async_client import AsyncClient  # type: ignore
@@ -19,7 +20,6 @@ async def main() -> None:
     await client.sync_timeout_height()
 
     # load account
-
     pk = open(os.path.expanduser("~/.pk")).readline()
 
     priv_key = PrivateKey.from_hex(pk)
@@ -28,8 +28,14 @@ async def main() -> None:
     account = await client.get_account(address.to_acc_bech32())
     subaccount_id = address.get_subaccount_id(index=0)
 
-    # prepare trade info
-    market_id = "0x90e662193fa29a3a7e6c07be4407c94833e762d9ee82136a2cc712d6b87d7de3"
+    m = markets.Map()
+    await m.main(network)
+
+    # # prepare trade info
+    # market_id = "0x90e662193fa29a3a7e6c07be4407c94833e762d9ee82136a2cc712d6b87d7de3"
+    logging.info(f"markets: {m.markets}")
+    market_id = m.markets["BTC/USDT PERP"]
+    logging.info(f"market_id: {market_id}")
     fee_recipient = "inj1hkhdaj2a2clmq5jq6mspsggqs32vynpk228q3r"
 
     # prepare tx msg
@@ -96,4 +102,4 @@ async def main() -> None:
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
-    asyncio.get_event_loop().run_until_complete(main())
+    asyncio.run(main())
