@@ -16,7 +16,7 @@ async def main() -> None:
 
     m = markets.Map()
 
-    await m.main()
+    await m.main(network)
 
     # eth_id = m.markets["ETH/USDT PERP"]
     btc_id = m.markets["BTC/USDT PERP"]
@@ -29,7 +29,7 @@ async def main() -> None:
     market_ids = l
     orderbooks = await client.stream_derivative_orderbook_snapshot(l)
     async for orderbook in orderbooks:
-        # print(orderbook)
+        print(orderbook)
         print(orderbook.operation_type)
         print(orderbook.timestamp)
         print(orderbook.market_id)

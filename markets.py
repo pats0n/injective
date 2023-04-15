@@ -32,7 +32,6 @@ class Map:
             # network = Network.mainnet()
         client = AsyncClient(network, insecure=False)
         markets = await client.get_derivative_markets()
-        print(markets)
         self.build(markets)
 
 
