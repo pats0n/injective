@@ -1,5 +1,5 @@
 #!/usr/bin/bash
 
-injectived query bank balances inj1clw20s2uxeyxtam6f7m84vgae92s9eh7vygagt --node=https://k8s.global.mainnet.tm.injective.network:443
+injectived query bank balances inj1cpqmqaqyq448c53pcajrrtwmr6j3cyudl4nfs4 --node=https://k8s.testnet.lcd.injective.network:443 --chain-id injective-888
 
 
