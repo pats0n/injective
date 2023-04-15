@@ -16,30 +16,26 @@ class Map:
 
     def build(self, markets: Any) -> None:
 
-        #iterate through grpc container
+        for i in range(0, len(markets.markets)):
 
-        for i in range(0,len(markets.markets)):
+            # print(markets.markets[i].ticker, markets.markets[i].market_id)
 
-            print(markets.markets[i].ticker, markets.markets[i].market_id)
+            self.markets[markets.markets[i].ticker] = markets.markets[i].market_id
 
+    async def main(self) -> None:
+        # select network: local, testnet, mainnet
+        # network = Network.testnet()
+        network = Network.mainnet()
+        client = AsyncClient(network, insecure=False)
+        markets = await client.get_derivative_markets()
 
-async def main() -> None:
-    # select network: local, testnet, mainnet
-    # network = Network.testnet()
-    network = Network.mainnet()
-    client = AsyncClient(network, insecure=False)
-    markets = await client.get_derivative_markets()
-
-    m = Map()
-
-    m.build(markets)
-
-    # print(markets)
-
-    # print(markets.markets[0].market_id)
-    # print(markets.Header)
+        self.build(markets)
 
 
 if __name__ == "__main__":
+
+    m = Map()
     logging.basicConfig(level=logging.INFO)
-    asyncio.run(main())
+    asyncio.run(m.main())
+
+    print(m.markets)
